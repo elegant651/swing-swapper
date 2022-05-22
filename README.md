@@ -1,7 +1,7 @@
 # Swing-swapper
 
-> a component for swapping erc20s on Uniswap (plus tokenlists + local forks of mainnet!)
-
+> Cross-chain Uniswap with swing API to enable cross-chain swaps
+[WIP]
 ---
 
 ## quickstart
