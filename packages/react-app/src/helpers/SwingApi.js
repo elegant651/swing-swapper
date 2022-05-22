@@ -158,3 +158,15 @@ export const getConfig = async () => {
   console.log(response.data);
   return response.data;
 };
+
+export const getTokenBalancesForAddress = async (chain_id, address) => {
+  const endpoint = `https://api.covalenthq.com/v1/${chain_id}/address/${address}/portfolio_v2/?&key=${process.env.COVALENT_API_KEY}`;
+  console.log("endpoint", endpoint);
+  const response = await axios.get(endpoint, {
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+  console.log(response.data);
+  return response.data;
+}

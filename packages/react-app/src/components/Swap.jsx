@@ -20,7 +20,7 @@ import { parseUnits, formatUnits } from "@ethersproject/units";
 import { ethers } from "ethers";
 import { useBlockNumber, usePoller } from "eth-hooks";
 import { abi as IUniswapV2Router02ABI } from "@uniswap/v2-periphery/build/IUniswapV2Router02.json";
-import { getQuote, getAllowance, approveBridge, sendTx, CHAIN_LIST } from "../helpers/SwingApi";
+import { getQuote, getAllowance, approveBridge, sendTx, getTokenBalancesForAddress, CHAIN_LIST } from "../helpers/SwingApi";
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -28,7 +28,6 @@ const { Text } = Typography;
 export const ROUTER_ADDRESS = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
 
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
-
 
 const erc20Abi = [
   "function balanceOf(address owner) view returns (uint256)",
@@ -82,9 +81,9 @@ function Swap({ selectedProvider, tokenListURI }) {
   const [swapModalVisible, setSwapModalVisible] = useState(false);
 
   const [tokenList, setTokenList] = useState([]);
-  
-  const [fromChain, setFromChain] = useState('ethereum');
-  const [toChain, setToChain] = useState('ethereum');
+
+  const [fromChain, setFromChain] = useState("ethereum");
+  const [toChain, setToChain] = useState("ethereum");
   const [bridgeRoutes, setBridgeRoutes] = useState([]);
 
   const [tokens, setTokens] = useState();
@@ -149,11 +148,11 @@ function Swap({ selectedProvider, tokenListURI }) {
       fromUserAddress: accountList[0],
       toUserAddress: accountList[0],
       // toTokenAddress,
-    })
-    console.log('response', response);
+    });
+    console.log("response", response);
     const routes = response.routes;
     setBridgeRoutes(routes);
-  }
+  };
 
   const getTrades = async () => {
     if (tokenIn && tokenOut && (amountIn || amountOut)) {
@@ -180,6 +179,7 @@ function Swap({ selectedProvider, tokenListURI }) {
       let tokenAmount;
 
       if (exact === "in") {
+        //getTokenBalancesForAddress(tokens[tokenIn].chainId, tokens[tokenIn].address)
         setAmountInMax();
         console.log("tokenAddress", tokens[tokenIn].address);
         tokenAmount = ethers.utils.hexlify(parseUnits(amountIn.toString(), tokens[tokenIn].decimals));
@@ -207,8 +207,8 @@ function Swap({ selectedProvider, tokenListURI }) {
           setAmountIn();
         }
       }
- 
-      const toChainId = '137';
+
+      const toChainId = "137";
 
       getBestBridges({
         fromSymbol: tokenIn,
@@ -598,9 +598,9 @@ function Swap({ selectedProvider, tokenListURI }) {
               style={{ width: "120px" }}
               size="large"
               bordered={false}
-              defaultValue={'ethereum'}
+              defaultValue="ethereum"
               onChange={value => {
-                console.log('v', value);
+                console.log("v", value);
                 setFromChain(value);
               }}
             >
@@ -677,9 +677,9 @@ function Swap({ selectedProvider, tokenListURI }) {
               style={{ width: "120px" }}
               size="large"
               bordered={false}
-              defaultValue={'ethereum'}
+              defaultValue="ethereum"
               onChange={value => {
-                console.log('v', value);
+                console.log("v", value);
                 setToChain(value);
               }}
             >
